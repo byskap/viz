@@ -7,11 +7,13 @@ from typing import Generator, Tuple, List
 #     tmp: f32,       // 4 bytes
 #     acc: [f64; 3],  // 24 bytes
 #     gyro: [f64; 3], // 24 bytes
+#     mag: [f64; 3],  // 24 bytes
 # }
-# // Total payload: 52 bytes + 1 byte COBS overhead + 1 byte delimiter
+# // Total payload: 76 bytes + 1 byte COBS overhead + 1 byte delimiter
+
 
 class SerialReader:
-    def __init__(self, port: str = '/dev/ttyACM0', baud: int = 115200):
+    def __init__(self, port: str = "/dev/ttyACM0", baud: int = 115200):
         self.port = port
         self.baud = baud
         self.ser = None
@@ -25,37 +27,40 @@ class SerialReader:
         if self.ser and self.ser.is_open:
             self.ser.close()
 
-    def read_data(self) -> Generator[Tuple[float, List[float], List[float]], None, None]:
+    def read_data(
+        self,
+    ) -> Generator[Tuple[float, List[float], List[float]], None, None]:
         if not self.ser:
             raise RuntimeError("Serial port not opened. Use as a context manager.")
 
         while True:
             byte = self.ser.read(1)
-            if byte == b'':
+            if byte == b"":
                 continue
 
-            if byte == b'\x00':
+            if byte == b"\x00":
                 if self.buffer:
                     try:
                         # 1. Remove COBS framing
                         raw_binary_data = cobs.decode(self.buffer)
-                        
+
                         # 2. Unpack the bytes
                         # '<' = Little Endian
                         # 'f' = 32-bit float (tmp)
                         # 'd' = 64-bit float (acc[3], gyro[3])
-                        # Payload: 4 (f32) + 24 ([f64; 3]) + 24 ([f64; 3]) = 52 bytes
-                        data = struct.unpack('<fdddddd', raw_binary_data)
-                        
+                        # Payload: 4 (f32) + 24 ([f64; 3]) + 24 ([f64; 3]) + 24 ([f64; 3]) = 76 bytes
+                        data = struct.unpack("<fddddddddd", raw_binary_data)
+
                         temp = data[0]
                         acc = list(data[1:4])
                         gyro = list(data[4:7])
-                        
-                        yield temp, acc, gyro
-                        
+                        mag = list(data[7:10])
+
+                        yield temp, acc, gyro, mag
+
                     except Exception as e:
                         print(f"Decode Error: {e}")
-                    
+
                     self.buffer.clear()
             else:
                 self.buffer.extend(byte)

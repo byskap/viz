@@ -2,6 +2,7 @@ import rerun as rr
 import rerun.blueprint as rrb
 from typing import List
 
+
 class RerunLogger:
     def __init__(self, application_id: str = "snow"):
         self.application_id = application_id
@@ -15,31 +16,42 @@ class RerunLogger:
         blueprint = rrb.Blueprint(
             rrb.Vertical(
                 rrb.TimeSeriesView(
-                    origin="logs/temp", 
+                    origin="logs/temp",
                     name="Temperature",
-                    axis_y=rrb.ScalarAxis(range=(-5, 30))
+                    axis_y=rrb.ScalarAxis(range=(-5, 30)),
                 ),
                 rrb.Horizontal(
                     rrb.TimeSeriesView(
-                        origin="logs/accel", 
+                        origin="logs/accel",
                         name="Accelerometer (m/s²)",
-                        axis_y=rrb.ScalarAxis(range=(-20, 20))
+                        axis_y=rrb.ScalarAxis(range=(-20, 20)),
                     ),
                     rrb.TimeSeriesView(
-                        origin="logs/gyro", 
+                        origin="logs/gyro",
                         name="Gyroscope (dps)",
-                        axis_y=rrb.ScalarAxis(range=(-500, 500))
+                        axis_y=rrb.ScalarAxis(range=(-500, 500)),
+                    ),
+                    rrb.TimeSeriesView(
+                        origin="logs/mag",
+                        name="Magnetometer (G)",
+                        axis_y=rrb.ScalarAxis(range=(-2, 2)),
                     ),
                 ),
             ),
         )
         rr.send_blueprint(blueprint)
 
-    def log_imu(self, temp: float, acc: List[float], gyro: List[float]):
-        # Set time to current (default in SDK if not specified, 
+    def log_imu(
+        self,
+        temp: float,
+        acc: List[float],
+        gyro: List[float],
+        mag: List[float],
+    ):
+        # Set time to current (default in SDK if not specified,
         # but maintaining user preference for explicit time if needed)
         # However, rr.set_time is usually global.
-        
+
         # Accelerometer
         rr.log("logs/accel/x", rr.Scalars(acc[0]))
         rr.log("logs/accel/y", rr.Scalars(acc[1]))
@@ -49,6 +61,11 @@ class RerunLogger:
         rr.log("logs/gyro/x", rr.Scalars(gyro[0]))
         rr.log("logs/gyro/y", rr.Scalars(gyro[1]))
         rr.log("logs/gyro/z", rr.Scalars(gyro[2]))
+
+        # Magnetometer
+        rr.log("logs/mag/x", rr.Scalars(mag[0]))
+        rr.log("logs/mag/y", rr.Scalars(mag[1]))
+        rr.log("logs/mag/z", rr.Scalars(mag[2]))
 
         # Temperature
         rr.log("logs/temp", rr.Scalars(temp))
