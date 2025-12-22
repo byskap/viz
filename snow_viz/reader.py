@@ -3,6 +3,13 @@ import serial
 from cobs import cobs
 from typing import Generator, Tuple, List
 
+# struct ImuData {
+#     tmp: f32,       // 4 bytes
+#     acc: [f64; 3],  // 24 bytes
+#     gyro: [f64; 3], // 24 bytes
+# }
+# // Total payload: 52 bytes + 1 byte COBS overhead + 1 byte delimiter
+
 class SerialReader:
     def __init__(self, port: str = '/dev/ttyACM0', baud: int = 115200):
         self.port = port
@@ -35,8 +42,10 @@ class SerialReader:
                         
                         # 2. Unpack the bytes
                         # '<' = Little Endian
-                        # 'f' = 32-bit float (13 entries)
-                        data = struct.unpack('<fffffffffffff', raw_binary_data)
+                        # 'f' = 32-bit float (tmp)
+                        # 'd' = 64-bit float (acc[3], gyro[3])
+                        # Payload: 4 (f32) + 24 ([f64; 3]) + 24 ([f64; 3]) = 52 bytes
+                        data = struct.unpack('<fdddddd', raw_binary_data)
                         
                         temp = data[0]
                         acc = list(data[1:4])

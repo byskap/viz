@@ -14,9 +14,23 @@ class RerunLogger:
     def _setup_blueprint(self):
         blueprint = rrb.Blueprint(
             rrb.Vertical(
-                rrb.TimeSeriesView(origin="logs/accel", name="Accelerometer"),
-                rrb.TimeSeriesView(origin="logs/gyro", name="Gyroscope"),
-                rrb.TimeSeriesView(origin="logs/temp", name="Temperature"),
+                rrb.TimeSeriesView(
+                    origin="logs/temp", 
+                    name="Temperature",
+                    axis_y=rrb.ScalarAxis(range=(-5, 30))
+                ),
+                rrb.Horizontal(
+                    rrb.TimeSeriesView(
+                        origin="logs/accel", 
+                        name="Accelerometer (m/s²)",
+                        axis_y=rrb.ScalarAxis(range=(-20, 20))
+                    ),
+                    rrb.TimeSeriesView(
+                        origin="logs/gyro", 
+                        name="Gyroscope (dps)",
+                        axis_y=rrb.ScalarAxis(range=(-500, 500))
+                    ),
+                ),
             ),
         )
         rr.send_blueprint(blueprint)
