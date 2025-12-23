@@ -3,14 +3,6 @@ import serial
 from cobs import cobs
 from typing import Generator, Tuple, List
 
-# struct ImuData {
-#     tmp: f32,       // 4 bytes
-#     acc: [f64; 3],  // 24 bytes
-#     gyro: [f64; 3], // 24 bytes
-#     mag: [f64; 3],  // 24 bytes
-# }
-# // Total payload: 76 bytes + 1 byte COBS overhead + 1 byte delimiter
-
 
 class SerialReader:
     def __init__(self, port: str = "/dev/ttyACM0", baud: int = 115200):
@@ -34,33 +26,27 @@ class SerialReader:
             raise RuntimeError("Serial port not opened. Use as a context manager.")
 
         while True:
-            byte = self.ser.read(1)
-            if byte == b"":
+            # Read until COBS delimiter
+            raw_packet = self.ser.read_until(b"\x00")
+            if not raw_packet or raw_packet == b"\x00":
                 continue
 
-            if byte == b"\x00":
-                if self.buffer:
-                    try:
-                        # 1. Remove COBS framing
-                        raw_binary_data = cobs.decode(self.buffer)
+            try:
+                # 2. Decode (strip the \x00)
+                pkt = cobs.decode(raw_packet[:-1])
 
-                        # 2. Unpack the bytes
-                        # '<' = Little Endian
-                        # 'f' = 32-bit float (tmp)
-                        # 'd' = 64-bit float (acc[3], gyro[3])
-                        # Payload: 4 (f32) + 24 ([f64; 3]) + 24 ([f64; 3]) + 24 ([f64; 3]) = 76 bytes
-                        data = struct.unpack("<fddddddddd", raw_binary_data)
+                # 3. Unpack based on your 112-byte Rust struct
+                data = struct.unpack("<Q3d3d3d4d", pkt)
+                
 
-                        temp = data[0]
-                        acc = list(data[1:4])
-                        gyro = list(data[4:7])
-                        mag = list(data[7:10])
+                yield {
+                    "loop_time": data[0],
+                    "accel": data[1:4],
+                    "gyro": data[4:7],
+                    "mag": data[7:10],
+                    "ego": data[10:14],
+                }
 
-                        yield temp, acc, gyro, mag
-
-                    except Exception as e:
-                        print(f"Decode Error: {e}")
-
-                    self.buffer.clear()
-            else:
-                self.buffer.extend(byte)
+            except Exception as e:
+                print(f"Decoding error: {e}")
+                continue

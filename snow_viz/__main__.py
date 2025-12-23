@@ -18,8 +18,9 @@ def main():
     try:
         with SerialReader(port=args.port, baud=args.baud) as reader:
             print("Listening for Snow data... (Press Ctrl+C to stop)")
-            for temp, acc, gyro, mag in reader.read_data():
-                logger.log_imu(temp, acc, gyro, mag)
+            for data in reader.read_data():
+                logger.log(data)
+
     except KeyboardInterrupt:
         print("\nStopped by user.")
     except Exception as e:

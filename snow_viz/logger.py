@@ -16,9 +16,9 @@ class RerunLogger:
         blueprint = rrb.Blueprint(
             rrb.Vertical(
                 rrb.TimeSeriesView(
-                    origin="logs/temp",
-                    name="Temperature",
-                    axis_y=rrb.ScalarAxis(range=(-5, 30)),
+                    origin="logs/loop_time",
+                    name="Loop Time (ms)",
+                    axis_y=rrb.ScalarAxis(range=(0, 100)),
                 ),
                 rrb.Horizontal(
                     rrb.TimeSeriesView(
@@ -39,23 +39,23 @@ class RerunLogger:
                 ),
             ),
         )
+
         rr.send_blueprint(blueprint)
 
-    def log_imu(
-        self,
-        temp: float,
-        acc: List[float],
-        gyro: List[float],
-        mag: List[float],
-    ):
-        # Set time to current (default in SDK if not specified,
-        # but maintaining user preference for explicit time if needed)
-        # However, rr.set_time is usually global.
+    def log(self, data: dict):
+        loop_time = data["loop_time"]
+        accel = data["accel"]
+        gyro = data["gyro"]
+        mag = data["mag"]
+        ego = data["ego"]
+
+        # Loop Time
+        rr.log("logs/loop_time", rr.Scalars(loop_time))
 
         # Accelerometer
-        rr.log("logs/accel/x", rr.Scalars(acc[0]))
-        rr.log("logs/accel/y", rr.Scalars(acc[1]))
-        rr.log("logs/accel/z", rr.Scalars(acc[2]))
+        rr.log("logs/accel/x", rr.Scalars(accel[0]))
+        rr.log("logs/accel/y", rr.Scalars(accel[1]))
+        rr.log("logs/accel/z", rr.Scalars(accel[2]))
 
         # Gyroscope
         rr.log("logs/gyro/x", rr.Scalars(gyro[0]))
@@ -67,5 +67,8 @@ class RerunLogger:
         rr.log("logs/mag/y", rr.Scalars(mag[1]))
         rr.log("logs/mag/z", rr.Scalars(mag[2]))
 
-        # Temperature
-        rr.log("logs/temp", rr.Scalars(temp))
+        # Egostate
+        rr.log("logs/ego/x", rr.Scalars(ego[0]))
+        rr.log("logs/ego/y", rr.Scalars(ego[1]))
+        rr.log("logs/ego/z", rr.Scalars(ego[2]))
+        rr.log("logs/ego/w", rr.Scalars(ego[3]))
