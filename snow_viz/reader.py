@@ -37,7 +37,6 @@ class SerialReader:
 
                 # 3. Unpack based on your 112-byte Rust struct
                 data = struct.unpack("<Q3d3d3d4d", pkt)
-                
 
                 yield {
                     "loop_time": data[0],

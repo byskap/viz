@@ -1,7 +1,5 @@
 import rerun as rr
 import rerun.blueprint as rrb
-from typing import List
-
 
 class RerunLogger:
     def __init__(self, application_id: str = "snow"):
@@ -37,10 +35,25 @@ class RerunLogger:
                         axis_y=rrb.ScalarAxis(range=(-2, 2)),
                     ),
                 ),
+                rrb.Spatial3DView(
+                    origin="logs/ego",
+                    name="Egostate",
+                    overrides={
+                        "logs/ego": [
+                            rrb.components.VisualizerOverride(["Transform3D"])
+                        ]
+                    }
+                ),
             ),
         )
 
         rr.send_blueprint(blueprint)
+
+        rr.log(
+            "logs/ego", 
+            rr.Boxes3D(half_sizes=[0.5, 0.2, 0.1], colors=[255, 0, 0]), 
+            static=True
+        )
 
     def log(self, data: dict):
         loop_time = data["loop_time"]
@@ -68,7 +81,4 @@ class RerunLogger:
         rr.log("logs/mag/z", rr.Scalars(mag[2]))
 
         # Egostate
-        rr.log("logs/ego/x", rr.Scalars(ego[0]))
-        rr.log("logs/ego/y", rr.Scalars(ego[1]))
-        rr.log("logs/ego/z", rr.Scalars(ego[2]))
-        rr.log("logs/ego/w", rr.Scalars(ego[3]))
+        rr.log("logs/ego", rr.Transform3D(rotation=rr.components.RotationQuat(xyzw=ego)))
