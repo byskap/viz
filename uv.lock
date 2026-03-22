@@ -19,6 +19,8 @@ sdist = { url = "https://files.pythonhosted.org/packages/34/ef/ea149311227a4fc31
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b4/df/7f07559954d53d09680aa4f5c72db999e7643253e2ca4e431023fe5c1c40/cobs-1.2.2-cp313-cp313-win32.whl", hash = "sha256:a8fdf6ca70247e7271caea6f2f6f9c0343f5e872e2fd47e21f71831fa9ababa8", size = 26401, upload-time = "2025-07-20T01:08:32.508Z" },
     { url = "https://files.pythonhosted.org/packages/0c/00/5b063105ff567bb7fb72c3cd3e96116a3889381fa2c0e7747497391dbecc/cobs-1.2.2-cp313-cp313-win_amd64.whl", hash = "sha256:fe3f7194d5fbbc02e8fb03d26ad626a33fa0d420b50d66ed60ac4bf516322d8e", size = 27774, upload-time = "2025-07-20T01:08:33.692Z" },
+    { url = "https://files.pythonhosted.org/packages/78/35/de1e889c26fcfc9ae6852b8f99e744e6690a3baae99f63e2b9fffdd21710/cobs-1.2.2-cp314-cp314-win32.whl", hash = "sha256:bcf08cb0b68c1824a87cfa89e0684d5a3eaee9b9e08b02ce4a54d5589536f01c", size = 26779, upload-time = "2026-03-09T02:18:48.711Z" },
+    { url = "https://files.pythonhosted.org/packages/b6/64/390e226843cc83066acc60257e0e71ebdbce6dd915ec4f3d34101b9ac31b/cobs-1.2.2-cp314-cp314-win_amd64.whl", hash = "sha256:1f27b7a553d809487287e4ed88540b2c30ed9c9bb596173bfcf549e705af7bf0", size = 28205, upload-time = "2026-03-09T02:18:20.193Z" },
 ]
 
 [[package]]
@@ -176,7 +178,7 @@ wheels = [
 
 [[package]]
 name = "rerun-sdk"
-version = "0.28.1"
+version = "0.30.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "attrs" },
@@ -186,10 +188,10 @@ dependencies = [
     { name = "typing-extensions" },
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/11/4f/7105b8aa0cfb2afdef53ef34d82a043126b6a69e74fbc530c08362b756b5/rerun_sdk-0.28.1-cp310-abi3-macosx_11_0_arm64.whl", hash = "sha256:efc4534ad2db8ec8c3b3c68f5883537d639c6758943e1ee10cfe6fb2022708e5", size = 108152262, upload-time = "2025-12-19T22:15:49.596Z" },
-    { url = "https://files.pythonhosted.org/packages/c9/c5/2a170f9d7c59888875cd60f9b756fc88eef6bf431ffbfe030291bb272754/rerun_sdk-0.28.1-cp310-abi3-manylinux_2_28_aarch64.whl", hash = "sha256:af0631b2598c7edb1872b42ec67ff04ff07bda60db6a4f9987821e4628271cbb", size = 115949311, upload-time = "2025-12-19T22:15:56.449Z" },
-    { url = "https://files.pythonhosted.org/packages/75/f7/ca2231395357d874f6e94daede9d726f9a5969654ae7efca4990cf3b3c6e/rerun_sdk-0.28.1-cp310-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:330ff7df6bcc31d45ccea84e8790b8755353731230c036bfa33fed53a48a02e7", size = 123828354, upload-time = "2025-12-19T22:16:02.755Z" },
-    { url = "https://files.pythonhosted.org/packages/bb/36/81fda4823c56c492cc5dc0408acb3635f08b0b17b1471b90dfbc4bea2793/rerun_sdk-0.28.1-cp310-abi3-win_amd64.whl", hash = "sha256:04e70610090dee4128b404a7f010c3b25208708c9dd2b0a279dbd27a69ccf453", size = 105707482, upload-time = "2025-12-19T22:16:08.704Z" },
+    { url = "https://files.pythonhosted.org/packages/79/37/0bd89c08fec35b3b23f0ca38eff0fd9960c67734643730b45210b407e35d/rerun_sdk-0.30.2-cp310-abi3-macosx_11_0_arm64.whl", hash = "sha256:8d952bf7ae2a1b1ee6064435cc14c82858771c2c2f1ec48b8164d69f6e4f0708", size = 114280633, upload-time = "2026-03-11T10:10:03.535Z" },
+    { url = "https://files.pythonhosted.org/packages/88/1b/ffa0335499343894648fa92cd655978a65de0f2c6fc2ddca9fe6b6f9c242/rerun_sdk-0.30.2-cp310-abi3-manylinux_2_28_aarch64.whl", hash = "sha256:f9bbe66ba4e9532c1a062d2d488ba09009c2231441fcfb013454832a9bd1bdfb", size = 122292152, upload-time = "2026-03-11T10:10:13.558Z" },
+    { url = "https://files.pythonhosted.org/packages/c5/89/182ef62bff3d9f190dd2e024b28cf0513ac7a83bc15b979e052c46c41f64/rerun_sdk-0.30.2-cp310-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:f3480847f124894d1c9bcbbdb4182a4c64986bf9d0d669e10752f0738ecac359", size = 127332181, upload-time = "2026-03-11T10:10:21.713Z" },
+    { url = "https://files.pythonhosted.org/packages/71/85/d04383cb508970ab8e9d9004e1f5959c5de8cba1efa47de20f9a94912dd2/rerun_sdk-0.30.2-cp310-abi3-win_amd64.whl", hash = "sha256:87bef55c6fccdcc9c3b6ff377a68f465ab872ffc1d16184abb62a382b63668a0", size = 110063998, upload-time = "2026-03-11T10:10:30.277Z" },
 ]
 
 [[package]]
@@ -206,7 +208,7 @@ dependencies = [
 requires-dist = [
     { name = "cobs", specifier = ">=1.2.0" },
     { name = "pyserial", specifier = ">=3.5" },
-    { name = "rerun-sdk", specifier = ">=0.21.0" },
+    { name = "rerun-sdk", specifier = "==0.30.2" },
 ]
 
 [[package]]

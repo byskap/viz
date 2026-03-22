@@ -40,7 +40,7 @@ class RerunLogger:
                     name="Egostate",
                     overrides={
                         "logs/ego": [
-                            rrb.components.VisualizerOverride(["Transform3D"])
+                            rrb.Visualizer("Transform3D")
                         ]
                     }
                 ),

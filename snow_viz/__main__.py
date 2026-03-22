@@ -5,8 +5,11 @@ from .logger import RerunLogger
 
 
 def main():
+    # serialPort = "/dev/ttyACM0"
+    serialPort = "/dev/tty.usbmodem21103"
+
     parser = argparse.ArgumentParser(description="Snow IMU Visualization")
-    parser.add_argument("--port", type=str, default="/dev/ttyACM0", help="Serial port")
+    parser.add_argument("--port", type=str, default=serialPort, help="Serial port")
     parser.add_argument("--baud", type=int, default=115200, help="Baud rate")
     args = parser.parse_args()
 
