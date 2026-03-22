@@ -10,7 +10,7 @@ def main():
 
     parser = argparse.ArgumentParser(description="Snow IMU Visualization")
     parser.add_argument("--port", type=str, default=serialPort, help="Serial port")
-    parser.add_argument("--baud", type=int, default=115200, help="Baud rate")
+    parser.add_argument("--baud", type=int, default=460800, help="Baud rate")
     args = parser.parse_args()
 
     logger = RerunLogger()

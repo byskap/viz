@@ -15,29 +15,26 @@ class RerunLogger:
             rrb.Vertical(
                 rrb.TimeSeriesView(
                     origin="logs/hz",
-                    name="Frequency (Hz)",
-                    axis_y=rrb.ScalarAxis(range=(0, 50)),
+                    name="Loop Frequency (Hz)",
+                    axis_y=rrb.ScalarAxis(range=(0, 150)),
                 ),
                 rrb.Horizontal(
                     rrb.TimeSeriesView(
                         origin="logs/accel",
                         name="Accelerometer (m/s²)",
-                        axis_y=rrb.ScalarAxis(range=(-20, 20)),
                     ),
                     rrb.TimeSeriesView(
                         origin="logs/gyro",
                         name="Gyroscope (dps)",
-                        axis_y=rrb.ScalarAxis(range=(-500, 500)),
                     ),
                     rrb.TimeSeriesView(
                         origin="logs/mag",
                         name="Magnetometer (G)",
-                        axis_y=rrb.ScalarAxis(range=(-2, 2)),
                     ),
                 ),
                 rrb.Spatial3DView(
                     origin="logs",
-                    name="Egostate",
+                    name="3D Visualization",
                 ),
             ),
         )
