@@ -13,10 +13,9 @@ class RerunLogger:
     def _setup_blueprint(self):
         blueprint = rrb.Blueprint(
             rrb.Vertical(
-                rrb.TimeSeriesView(
-                    origin="logs/hz",
-                    name="Loop Frequency (Hz)",
-                    axis_y=rrb.ScalarAxis(range=(0, 150)),
+                rrb.TextDocumentView(
+                    origin="logs/hz_text",
+                    name="Frequency",
                 ),
                 rrb.Horizontal(
                     rrb.TimeSeriesView(
@@ -36,6 +35,7 @@ class RerunLogger:
                     origin="logs",
                     name="3D Visualization",
                 ),
+                row_shares=[.3, 1, 3],
             ),
         )
 
@@ -54,15 +54,18 @@ class RerunLogger:
         mag = data["mag"]
         ego = data["ego"]
         pos = data["pos"]
+        is_stationary = data["is_stationary"] > 0
 
         # Frequency (Hz)
         hz = 1000.0 / loop_time if loop_time > 0 else 0.0
         rr.log("logs/hz", rr.Scalars(hz))
+        rr.log("logs/hz_text", rr.TextDocument(f"# {hz:.1f} Hz  | Stationary: {'YES' if is_stationary else 'NO'}"))
 
         # Accelerometer
         rr.log("logs/accel/x", rr.Scalars(accel[0]))
         rr.log("logs/accel/y", rr.Scalars(accel[1]))
         rr.log("logs/accel/z", rr.Scalars(accel[2]))
+        rr.log("logs/accel/is_stationary", rr.Scalars(1.0 if is_stationary else 0.0))
 
         # Gyroscope
         rr.log("logs/gyro/x", rr.Scalars(gyro[0]))
