@@ -8,7 +8,7 @@ def main():
     # serialPort = "/dev/ttyACM0"
     serialPort = "/dev/tty.usbmodem21103"
 
-    parser = argparse.ArgumentParser(description="Snow IMU Visualization")
+    parser = argparse.ArgumentParser(description="Visualization")
     parser.add_argument("--port", type=str, default=serialPort, help="Serial port")
     parser.add_argument("--baud", type=int, default=460800, help="Baud rate")
     args = parser.parse_args()
@@ -20,7 +20,7 @@ def main():
 
     try:
         with SerialReader(port=args.port, baud=args.baud) as reader:
-            print("Listening for Snow data... (Press Ctrl+C to stop)")
+            print("Listening for data... (Press Ctrl+C to stop)")
             for data in reader.read_data():
                 logger.log(data)
 

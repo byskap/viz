@@ -1,15 +1,14 @@
 [project]
 dependencies = ["pyserial>=3.5", "cobs>=1.2.0", "rerun-sdk==0.30.2"]
-description = "IMU data visualization for Snow project using Rerun"
-name = "snow-viz"
+name = "viz"
 version = "0.1.0"
 
 [project.gui-scripts]
 # Alternative if you want to run it without a console (though this is a CLI)
-# snow-viz-gui = "snow_viz.__main__:main"
+# viz-gui = "viz.__main__:main"
 
 [project.scripts]
-snow-viz = "snow_viz.__main__:main"
+viz = "viz.__main__:main"
 
 [build-system]
 build-backend = "setuptools.build_meta"

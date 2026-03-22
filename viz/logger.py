@@ -2,7 +2,7 @@ import rerun as rr
 import rerun.blueprint as rrb
 
 class RerunLogger:
-    def __init__(self, application_id: str = "snow"):
+    def __init__(self, application_id: str = "viz"):
         self.application_id = application_id
 
     def connect(self):
