@@ -14,9 +14,9 @@ class RerunLogger:
         blueprint = rrb.Blueprint(
             rrb.Vertical(
                 rrb.TimeSeriesView(
-                    origin="logs/loop_time",
-                    name="Loop Time (ms)",
-                    axis_y=rrb.ScalarAxis(range=(0, 100)),
+                    origin="logs/hz",
+                    name="Frequency (Hz)",
+                    axis_y=rrb.ScalarAxis(range=(0, 50)),
                 ),
                 rrb.Horizontal(
                     rrb.TimeSeriesView(
@@ -36,13 +36,8 @@ class RerunLogger:
                     ),
                 ),
                 rrb.Spatial3DView(
-                    origin="logs/ego",
+                    origin="logs",
                     name="Egostate",
-                    overrides={
-                        "logs/ego": [
-                            rrb.Visualizer("Transform3D")
-                        ]
-                    }
                 ),
             ),
         )
@@ -61,9 +56,11 @@ class RerunLogger:
         gyro = data["gyro"]
         mag = data["mag"]
         ego = data["ego"]
+        pos = data["pos"]
 
-        # Loop Time
-        rr.log("logs/loop_time", rr.Scalars(loop_time))
+        # Frequency (Hz)
+        hz = 1000.0 / loop_time if loop_time > 0 else 0.0
+        rr.log("logs/hz", rr.Scalars(hz))
 
         # Accelerometer
         rr.log("logs/accel/x", rr.Scalars(accel[0]))
@@ -81,4 +78,4 @@ class RerunLogger:
         rr.log("logs/mag/z", rr.Scalars(mag[2]))
 
         # Egostate
-        rr.log("logs/ego", rr.Transform3D(rotation=rr.components.RotationQuat(xyzw=ego)))
+        rr.log("logs/ego", rr.Transform3D(translation=pos, rotation=rr.Quaternion(xyzw=ego)))

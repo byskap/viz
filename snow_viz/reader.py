@@ -35,8 +35,8 @@ class SerialReader:
                 # 2. Decode (strip the \x00)
                 pkt = cobs.decode(raw_packet[:-1])
 
-                # 3. Unpack based on your 112-byte Rust struct
-                data = struct.unpack("<Q3d3d3d4d", pkt)
+                # 3. Unpack based on your 136-byte Rust struct (Q3d3d3d4d3d)
+                data = struct.unpack("<Q3d3d3d4d3d", pkt)
 
                 yield {
                     "loop_time": data[0],
@@ -44,7 +44,9 @@ class SerialReader:
                     "gyro": data[4:7],
                     "mag": data[7:10],
                     "ego": data[10:14],
+                    "pos": data[14:17],
                 }
+
 
             except Exception as e:
                 print(f"Decoding error: {e}")
