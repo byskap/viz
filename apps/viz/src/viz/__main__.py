@@ -1,6 +1,6 @@
 import argparse
 import time
-from .reader import SerialReader
+from serial_parser.reader import SerialReader
 from .logger import RerunLogger
 
 

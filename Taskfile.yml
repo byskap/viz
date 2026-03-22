@@ -1,0 +1,8 @@
+version: '3'
+
+tasks:
+  viz:
+    cmd: uv run viz {{.CLI_ARGS}}
+
+  log:
+    cmd: uv run logger {{.CLI_ARGS}}
